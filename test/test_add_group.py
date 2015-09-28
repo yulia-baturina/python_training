@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
-from dataObjects.group import Group
-from application import Application
+from model.group import Group
+from fixture.application import Application
 
 
 def is_alert_present(wd):
