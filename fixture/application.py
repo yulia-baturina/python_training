@@ -16,5 +16,13 @@ class Application:
         self.group = GroupHelper(self)
         self.contact = ContactHelper(self)
 
+    def accept_alert(self):
+        wd = self.wd
+        try:
+            wd.switch_to_alert().accept()
+            return True
+        except:
+            return False
+
     def destroy(self):
         self.wd.quit()
