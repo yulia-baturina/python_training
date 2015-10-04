@@ -5,9 +5,14 @@ class GroupHelper:
     def __init__(self, app):
         self.app = app
 
+    def is_groups_page_opened(self):
+        wd = self.app.wd
+        return wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0
+
     def return_to_groups_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("group page").click()
+        if not self.is_groups_page_opened():
+            wd.find_element_by_link_text("group page").click()
 
     def fill_in_fields(self, group):
         wd = self.app.wd
@@ -34,7 +39,8 @@ class GroupHelper:
 
     def open_groups_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("groups").click()
+        if not self.is_groups_page_opened():
+           wd.find_element_by_link_text("groups").click()
 
     def delete_first_group(self):
         wd = self.app.wd
