@@ -57,3 +57,7 @@ class ContactHelper:
         wd.find_element_by_xpath("//*[@value='Delete']").click()
         self.app.accept_alert()
         self.app.navigation.return_to_home_page()
+
+    def count(self):
+        wd = self.app.wd
+        return len(wd.find_elements_by_name("selected[]"))
