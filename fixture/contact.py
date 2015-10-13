@@ -1,5 +1,7 @@
 __author__ = 'IEUser'
 
+from model.contact import Contact
+
 
 class ContactHelper:
     def __init__(self, app):
@@ -7,27 +9,34 @@ class ContactHelper:
 
     def fill_in_fields(self, contact):
         wd = self.app.wd
-        wd.find_element_by_name("firstname").click()
-        wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys(contact.firstname)
-        wd.find_element_by_name("lastname").click()
-        wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys(contact.lastname)
-        wd.find_element_by_name("nickname").click()
-        wd.find_element_by_name("nickname").clear()
-        wd.find_element_by_name("nickname").send_keys(contact.nickname)
-        wd.find_element_by_name("company").click()
-        wd.find_element_by_name("company").clear()
-        wd.find_element_by_name("company").send_keys(contact.company)
-        wd.find_element_by_name("title").click()
-        wd.find_element_by_name("title").clear()
-        wd.find_element_by_name("title").send_keys(contact.title)
-        wd.find_element_by_name("address").click()
-        wd.find_element_by_name("address").clear()
-        wd.find_element_by_name("address").send_keys(contact.address)
-        wd.find_element_by_name("home").click()
-        wd.find_element_by_name("home").clear()
-        wd.find_element_by_name("home").send_keys(contact.home)
+        if contact.firstname:
+            wd.find_element_by_name("firstname").click()
+            wd.find_element_by_name("firstname").clear()
+            wd.find_element_by_name("firstname").send_keys(contact.firstname)
+        if contact.lastname:
+            wd.find_element_by_name("lastname").click()
+            wd.find_element_by_name("lastname").clear()
+            wd.find_element_by_name("lastname").send_keys(contact.lastname)
+        if contact.nickname:
+            wd.find_element_by_name("nickname").click()
+            wd.find_element_by_name("nickname").clear()
+            wd.find_element_by_name("nickname").send_keys(contact.nickname)
+        if contact.company:
+            wd.find_element_by_name("company").click()
+            wd.find_element_by_name("company").clear()
+            wd.find_element_by_name("company").send_keys(contact.company)
+        if contact.title:
+            wd.find_element_by_name("title").click()
+            wd.find_element_by_name("title").clear()
+            wd.find_element_by_name("title").send_keys(contact.title)
+        if contact.address:
+            wd.find_element_by_name("address").click()
+            wd.find_element_by_name("address").clear()
+            wd.find_element_by_name("address").send_keys(contact.address)
+        if contact.home:
+            wd.find_element_by_name("home").click()
+            wd.find_element_by_name("home").clear()
+            wd.find_element_by_name("home").send_keys(contact.home)
 
     def create(self, contact):
         wd = self.app.wd
@@ -62,3 +71,14 @@ class ContactHelper:
         wd = self.app.wd
         self.app.navigation.open_home_page()
         return len(wd.find_elements_by_name("selected[]"))
+
+    def get_contact_list(self):
+        wd = self.app.wd
+        self.app.navigation.open_home_page()
+        contacts = []
+        for element in wd.find_elements_by_xpath("//tr[@name='entry']"):
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            lastname = element.find_elements_by_tag_name("td")[1].text
+            firstname = element.find_elements_by_tag_name("td")[2].text
+            contacts.append(Contact(lastname=lastname, firstname=firstname, id=id))
+        return contacts
