@@ -5,6 +5,7 @@ class NavigationHelper:
 
     def __init__(self, app):
         self.app = app
+        self.baseUrl = app.baseUrl
 
     def is_home_page_opened(self):
         wd = self.app.wd
@@ -13,7 +14,7 @@ class NavigationHelper:
     def open_home_page(self):
         wd = self.app.wd
         if not self.is_home_page_opened():
-            wd.get("http://localhost:8080/addressbook/")
+            wd.get(self.baseUrl)
 
     def return_to_home_page(self):
         wd = self.app.wd
