@@ -1,17 +1,9 @@
 # -*- coding: utf-8 -*-
 from model.group import Group
-from fixture.stringUtils import StringsHelper
-import pytest
-
-testdata = [Group(name="", header="", footer="")] + [
-    Group(name=StringsHelper.randomstring("name", 10), header=StringsHelper.randomstring("header", 20),
-          footer=StringsHelper.randomstring("footer", 20))
-    for i in range(5)
-    ]
 
 
-@pytest.mark.parametrize("group", testdata, ids=[repr(x) for x in testdata])
-def test_add_group(app, group):
+def test_add_group(app, json_groups):
+    group = json_groups
     old_groups = app.group.get_group_list()
     app.group.create(group)
     assert len(old_groups) + 1 == app.group.count()
