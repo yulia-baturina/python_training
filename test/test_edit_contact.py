@@ -3,7 +3,7 @@ from model.contact import Contact
 import random
 
 # test fails because editing/deleting contacts on UI adds new rows to DB instead of updating/deleting them
-def test_edit_contact(app, db):
+def test_edit_contact(app, db, check_ui):
     if len(db.get_contact_list()) == 0:
         app.contact.create(Contact(firstname="first", lastname="last", nickname="nick",
        company="company", homePhone="+11111111111", email="mail@mail.com"))
@@ -18,9 +18,11 @@ def test_edit_contact(app, db):
     new_contacts = db.get_contact_list()
     old_contacts[contact_index] = contact
     assert sorted(old_contacts, key = Contact.id_or_max) == sorted(new_contacts, key = Contact.id_or_max)
+    if check_ui:
+        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.group.get_contact_list(), key=Contact.id_or_max)
 
 # test fails because editing/deleting contacts on UI adds new rows to DB instead of updating/deleting them
-def test_modify_contact_initials(app, db):
+def test_modify_contact_initials(app, db, check_ui):
     if len(db.get_contact_list()) == 0:
         app.contact.create(Contact(firstname="first", lastname="last", nickname="nick",
     company="company", homePhone="+22222222", email="mail@updated"))
@@ -33,3 +35,5 @@ def test_modify_contact_initials(app, db):
     new_contacts = db.get_contact_list()
     old_contacts[contact_index] = contact
     assert sorted(old_contacts, key = Contact.id_or_max) == sorted(new_contacts, key = Contact.id_or_max)
+    if check_ui:
+        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.group.get_contact_list(), key=Contact.id_or_max)
