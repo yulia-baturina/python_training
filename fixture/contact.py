@@ -46,7 +46,7 @@ class ContactHelper:
 
     def open_contact_to_edit_by_index(self, index):
         wd = self.app.wd
-        wd.find_element_by_xpath("//*[@title='Edit']")[index].click()
+        wd.find_elements_by_xpath("//*[@title='Edit']")[index].click()
 
     def open_contact_to_edit_by_id(self, id):
         wd = self.app.wd
