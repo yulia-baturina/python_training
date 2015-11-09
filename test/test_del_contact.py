@@ -2,7 +2,6 @@
 from model.contact import Contact
 import random
 
-# test fails because editing/deleting contacts on UI adds new rows to DB instead of updating/deleting them
 def test_delete_random_contact(app, db, check_ui):
     if len(db.get_contact_list()) == 0:
         app.contact.create(Contact(firstname="first", lastname="last", nickname="nick",
