@@ -1,6 +1,7 @@
 __author__ = 'IEUser'
 
 from model.contact import Contact
+from selenium.webdriver.support.ui import Select
 import re
 
 class ContactHelper:
@@ -29,6 +30,12 @@ class ContactHelper:
             wd.find_element_by_name(fieldName).click()
             wd.find_element_by_name(fieldName).clear()
             wd.find_element_by_name(fieldName).send_keys(fieldValue)
+
+    def add_contact_to_group(self, groupName):
+        wd = self.app.wd
+        select = Select(wd.find_element_by_name("to_group"))
+        select.select_by_visible_text('%s' % groupName)
+        wd.find_element_by_xpath("//*[@value='Add to']").click()
 
     def create(self, contact):
         wd = self.app.wd
@@ -78,6 +85,13 @@ class ContactHelper:
         self.app.navigation.return_to_home_page()
         self.contact_cache=None
 
+    def assign_contact_by_id_to_group(self, id, groupName):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//input[@value='%s']" % id).click()
+        self.add_contact_to_group(groupName)
+        self.app.navigation.return_to_home_page()
+        self.contact_cache=None
+
     def delete_first_contact(self):
         self.delete_contact_by_index(0)
 
@@ -93,7 +107,7 @@ class ContactHelper:
 
     def delete_contact_by_id(self, id):
         wd = self.app.wd
-        # select contact by index
+        # select contact by id
         wd.find_element_by_xpath("//input[@value='%s']" % id).click()
         # submit deletion
         wd.find_element_by_xpath("//*[@value='Delete']").click()

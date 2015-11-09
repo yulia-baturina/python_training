@@ -6,6 +6,7 @@ import os.path
 import importlib
 from fixture.application import Application
 from fixture.db import DbFixture
+from fixture.orm import ORMFixture
 
 fixture = None
 target = None
@@ -42,6 +43,10 @@ def db(request):
     request.addfinalizer(fin)
     return dbfixture
 
+@pytest.fixture(scope="session")
+def orm(request):
+    orm = ORMFixture(host="127.0.0.1", name = "addressbook", user="root", password="")
+    return orm
 
 @pytest.fixture(scope="session", autouse=True)
 def stop(request):
