@@ -128,3 +128,9 @@ class GroupHelper:
                 id = element.find_element_by_name("selected[]").get_attribute("value")
                 self.group_cache.append(Group(name=text, id=id))
         return list(self.group_cache)
+
+    def remove_contact_by_id_from_group(self, id):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//input[@value='%s']" % id).click()
+        wd.find_element_by_xpath("//*[@name='remove']").click()
+        self.app.navigation.return_to_home_page()

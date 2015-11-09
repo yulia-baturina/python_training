@@ -89,8 +89,7 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_xpath("//input[@value='%s']" % id).click()
         self.add_contact_to_group(groupName)
-        self.app.navigation.return_to_home_page()
-        self.contact_cache=None
+        wd.find_element_by_xpath("//*[text()='Go to ']/a").click()
 
     def delete_first_contact(self):
         self.delete_contact_by_index(0)
