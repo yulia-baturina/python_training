@@ -50,11 +50,6 @@ class Contact:
         self_emails = self.get_all_emails_like_on_home_page()
         other_emails = other.get_all_emails_like_on_home_page()
 
-        if not ((self.id is None or other.id is None or self.id == other.id) and self.firstname == other.firstname \
-            and self.lastname == other.lastname and self.address == other.address \
-            and self_emails == other_emails and self_phones == other_phones):
-            j=1
-
         return (self.id is None or other.id is None or self.id == other.id) and self.firstname == other.firstname \
             and self.lastname == other.lastname and self.address == other.address \
             and self_emails == other_emails and self_phones == other_phones
